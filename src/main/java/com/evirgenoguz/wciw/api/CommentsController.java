@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.evirgenoguz.wciw.business.abstracts.CommentService;
+import com.evirgenoguz.wciw.core.utilities.results.DataResult;
+import com.evirgenoguz.wciw.core.utilities.results.Result;
 import com.evirgenoguz.wciw.entities.concretes.Comment;
 
 @RestController
@@ -28,22 +30,22 @@ public class CommentsController {
 	}
 	
 	@GetMapping("/getall")
-	public List<Comment> getAll(){
+	public DataResult<List<Comment>> getAll(){
 		return this.commentService.getAll();
 	}
 	
 	@PostMapping
-	public Comment addComment(@RequestBody Comment comment) {
+	public DataResult<Comment> addComment(@RequestBody Comment comment) {
 		return this.commentService.addComment(comment);
 	}
 	
 	@PutMapping("/updatecomment")
-	public Comment updateComment(@PathVariable int commentId, @RequestBody Comment comment){
+	public DataResult<Comment> updateComment(@PathVariable int commentId, @RequestBody Comment comment){
 		return this.commentService.updateComment(commentId, comment);	
 	}
 	
 	@DeleteMapping("/deletecomment")
-	public void deleteCommentById(@PathVariable int commentId) {
-		this.commentService.deleteCommentbyId(commentId);
+	public Result deleteCommentById(@PathVariable int commentId) {
+		return this.commentService.deleteCommentbyId(commentId);
 	}
 }

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.evirgenoguz.wciw.business.abstracts.UserService;
+import com.evirgenoguz.wciw.core.utilities.results.DataResult;
+import com.evirgenoguz.wciw.core.utilities.results.Result;
 import com.evirgenoguz.wciw.entities.concretes.User;
 
 @RestController
@@ -28,22 +30,22 @@ public class UsersController {
 	}
 
 	@GetMapping("/getall")
-	public List<User> getAll() {
+	public DataResult<List<User>> getAll() {
 		return this.userService.getAll();
 	}
 	
 	@PostMapping("/createuser")
-	public User createUser(@RequestBody User user){
+	public DataResult<User> createUser(@RequestBody User user){
 		return this.userService.addUser(user);
 	}
 	
 	@PutMapping("/updateuser")
-	public User updateUser(@PathVariable int userId, @RequestBody User user) {
+	public DataResult<User> updateUser(@PathVariable int userId, @RequestBody User user) {
 		return this.userService.updateUser(userId, user);
 	}
 	
 	@DeleteMapping("/deleteuser")
-	public void deleteUserById(@PathVariable int userId) {
-		this.userService.deleteUserbyId(userId);
+	public Result deleteUserById(@PathVariable int userId) {
+		return this.userService.deleteUserbyId(userId);
 	}
 }

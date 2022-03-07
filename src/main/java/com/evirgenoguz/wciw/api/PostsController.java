@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.evirgenoguz.wciw.business.abstracts.PostService;
+import com.evirgenoguz.wciw.core.utilities.results.DataResult;
+import com.evirgenoguz.wciw.core.utilities.results.Result;
 import com.evirgenoguz.wciw.entities.concretes.Post;
 
 @RestController
@@ -25,12 +27,13 @@ public class PostsController {
 	}
 	
 	@GetMapping("/getall")
-	public List<Post> getAll(){
-		return this.postService.getAll();
+	public DataResult<List<Post>> getAll(){
+		return postService.getAll();
 	}
 	
+	
 	@PostMapping("/addpost")
-	public Post addPost(@RequestBody Post post) {
+	public Result addPost(@RequestBody Post post) {
 		return this.postService.addPost(post);
 	}
 	

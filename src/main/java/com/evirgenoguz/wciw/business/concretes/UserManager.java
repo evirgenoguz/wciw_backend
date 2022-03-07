@@ -7,6 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.evirgenoguz.wciw.business.abstracts.UserService;
+import com.evirgenoguz.wciw.core.utilities.results.DataResult;
+import com.evirgenoguz.wciw.core.utilities.results.ErrorDataResult;
+import com.evirgenoguz.wciw.core.utilities.results.Result;
+import com.evirgenoguz.wciw.core.utilities.results.SuccessDataResult;
+import com.evirgenoguz.wciw.core.utilities.results.SuccessResult;
 import com.evirgenoguz.wciw.dataAccess.abstracts.UserDao;
 import com.evirgenoguz.wciw.entities.concretes.User;
 
@@ -23,22 +28,24 @@ public class UserManager implements UserService {
 	}
 	
 	@Override
-	public List<User> getAll() {
-		return this.userDao.findAll();
+	public DataResult<List<User>> getAll() {
+		return new SuccessDataResult<List<User>>(this.userDao.findAll(), "Kullanıcılar Getirildi");
 	}
 
 	@Override
-	public User addUser(User user) {
-		return this.userDao.save(user);
+	public DataResult<User> addUser(User user) {
+		return new SuccessDataResult<User>(this.userDao.save(user), "Kullanıcı Başarı ile Eklendi");
+				
 	}
 
 	@Override
-	public User getUserById(int userId) {
-		return this.userDao.getById(userId);
+	public DataResult<User> getUserById(int userId) {
+		return new SuccessDataResult<User>(this.userDao.getById(userId), "Kullanıcı Getirildi");
+				
 	}
 
 	@Override
-	public User updateUser(int userId, User updatedUser) {
+	public DataResult<User> updateUser(int userId, User updatedUser) {
 		Optional<User> user = this.userDao.findById(userId);
 		
 		if(user.isPresent()) {
@@ -47,15 +54,16 @@ public class UserManager implements UserService {
 			foundUser.setPassword(updatedUser.getPassword());
 			foundUser.setEmail(updatedUser.getEmail());
 			this.userDao.save(foundUser);
-			return foundUser;
+			return new SuccessDataResult<User>(foundUser, "Kullanıcı Başarı ile Güncellendi");
 		} else {
-			return null;
+			return new ErrorDataResult<User>("Kullanıcı Güncelleme Başarısız");
 		}
 	}
 
 	@Override
-	public void deleteUserbyId(int userId) {
+	public Result deleteUserbyId(int userId) {
 		this.userDao.deleteById(userId);
+		return new SuccessResult("Kullanıcı Silindi");
 	}
 
 	

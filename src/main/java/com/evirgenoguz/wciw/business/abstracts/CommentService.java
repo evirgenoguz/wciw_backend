@@ -2,18 +2,20 @@ package com.evirgenoguz.wciw.business.abstracts;
 
 import java.util.List;
 
+import com.evirgenoguz.wciw.core.utilities.results.DataResult;
+import com.evirgenoguz.wciw.core.utilities.results.Result;
 import com.evirgenoguz.wciw.entities.concretes.Comment;
 
 
 public interface CommentService {
-	List<Comment> getAll();
+	DataResult<List<Comment>> getAll();
 	
-	Comment addComment(Comment comment);
+	DataResult<Comment> addComment(Comment comment);
 	
-	Comment getCommentById(int commentId);
+	DataResult<Comment> getCommentById(int commentId);
 	
-	Comment updateComment(int commentId, Comment updatedcomment);
+	DataResult<Comment> updateComment(int commentId, Comment updatedcomment);
 	
-	void deleteCommentbyId(int commentId);
+	Result deleteCommentbyId(int commentId);
 }
 

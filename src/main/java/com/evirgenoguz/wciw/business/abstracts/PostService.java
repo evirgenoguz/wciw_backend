@@ -2,16 +2,18 @@ package com.evirgenoguz.wciw.business.abstracts;
 
 import java.util.List;
 
+import com.evirgenoguz.wciw.core.utilities.results.DataResult;
+import com.evirgenoguz.wciw.core.utilities.results.Result;
 import com.evirgenoguz.wciw.entities.concretes.Post;
 
 public interface PostService {
-	List<Post> getAll();
+	DataResult<List<Post>> getAll();
 	
-	Post addPost(Post post);
+	Result addPost(Post post);
 	
-	Post getPostById(int postId);
+	DataResult<Post> getPostById(int postId);
 	
-	Post updatePost(int postId, Post updatedPost);
+	DataResult<Post> updatePost(int postId, Post updatedPost);
 	
-	void deletePostbyId(int postId);
+	Result deletePostbyId(int postId);
 }
