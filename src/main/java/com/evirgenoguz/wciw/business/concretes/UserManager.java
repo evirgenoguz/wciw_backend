@@ -40,7 +40,7 @@ public class UserManager implements UserService {
 
 	@Override
 	public DataResult<User> getUserById(int userId) {
-		return new SuccessDataResult<User>(this.userDao.getById(userId), "Kullanıcı Getirildi");
+		return new SuccessDataResult<User>(this.userDao.findById(userId).orElse(null), "Kullanıcı Getirildi");
 				
 	}
 

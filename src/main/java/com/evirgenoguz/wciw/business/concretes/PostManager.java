@@ -9,21 +9,27 @@ import org.springframework.stereotype.Service;
 import com.evirgenoguz.wciw.business.abstracts.PostService;
 import com.evirgenoguz.wciw.core.utilities.results.DataResult;
 import com.evirgenoguz.wciw.core.utilities.results.ErrorDataResult;
+import com.evirgenoguz.wciw.core.utilities.results.ErrorResult;
 import com.evirgenoguz.wciw.core.utilities.results.Result;
 import com.evirgenoguz.wciw.core.utilities.results.SuccessDataResult;
 import com.evirgenoguz.wciw.core.utilities.results.SuccessResult;
 import com.evirgenoguz.wciw.dataAccess.abstracts.PostDao;
+import com.evirgenoguz.wciw.dataAccess.abstracts.UserDao;
 import com.evirgenoguz.wciw.entities.concretes.Post;
+import com.evirgenoguz.wciw.entities.concretes.User;
+import com.evirgenoguz.wciw.requests.PostCreateRequest;
 
 @Service
 public class PostManager implements PostService{
 
 	private PostDao postDao;
+	private UserDao userDao;
 	
 	@Autowired
-	public PostManager(PostDao postDao) {
+	public PostManager(PostDao postDao, UserDao userDao) {
 		super();
 		this.postDao = postDao;
+		this.userDao = userDao;
 	}
 
 	@Override
@@ -32,8 +38,22 @@ public class PostManager implements PostService{
 	}
 
 	@Override
-	public Result addPost(Post post) {
-		this.postDao.save(post);
+	public Result addPost(PostCreateRequest newPostRequest) {
+		
+		User user = userDao.getById(newPostRequest.getUserId());
+
+		if (user == null) {
+			return new ErrorResult("Kullanıcı Bulunamadı");
+		}
+		
+		Post postToSave = new Post();
+		postToSave.setId(newPostRequest.getId());
+		postToSave.setDescription(newPostRequest.getDescription());
+		postToSave.setTitle(newPostRequest.getTitle());
+		postToSave.setUser(user);
+		
+		
+		this.postDao.save(postToSave);
 		return new SuccessResult("Post Eklendi");
 	}
 

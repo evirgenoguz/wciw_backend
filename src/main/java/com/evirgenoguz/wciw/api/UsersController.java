@@ -34,6 +34,11 @@ public class UsersController {
 		return this.userService.getAll();
 	}
 	
+	@GetMapping("{userId}")
+	public DataResult<User> getUserById(@PathVariable int userId){
+		return this.userService.getUserById(userId);
+	}
+	
 	@PostMapping("/createuser")
 	public DataResult<User> createUser(@RequestBody User user){
 		return this.userService.addUser(user);
